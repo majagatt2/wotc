@@ -1,0 +1,38 @@
+{% extends "base/index_forms.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+{% endblock %}
+
+{% block content %}   
+<div class="justify-content-center pt-5 bg-white bg-opacity-50 text-black" style="margin-top: 0rem; ">
+    <br><br>
+<form  method="POST" class="needs-validation " novalidate="" enctype="multipart/form-data">
+         
+            {% csrf_token %}
+    <div class=" container ">
+            <br><br>
+            <h3 class="mb-3 text-center">Update your Member Family information</h3>
+            <br>
+           
+                 {{form | crispy}}
+                
+        <br><br><br>         
+
+        <div class="d-flex justify-content-end">                  
+            <a type="reset" class="btn btn-secondary" href={% url 'my_profile' %}>Back</a>
+            &nbsp;                 
+            <input type="submit" class=" btn btn-primary" value="Save">    
+                   
+        </div>
+       <br><br><br>
+    </div>
+    
+</form>
+</div>
+{% endblock  %}
+
+
+{% block section %}
+{% endblock %}
+           

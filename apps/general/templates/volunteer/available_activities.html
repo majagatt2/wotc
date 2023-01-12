@@ -1,0 +1,76 @@
+{% extends 'base/index_forms.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% comment %} {% block header %}
+{% endblock %}
+
+
+{% block content %}
+{% endblock %} {% endcomment %}
+
+{% block content %}
+
+{% if object_list.count > 0 %}
+
+    <div class="justify-content-center pt-5   bg-white small bg-opacity-50 text-black">
+    
+      <div class=" container ">
+        {% for e in other_event %}
+            <div class="row justify-content-center" style="padding-top: 5rem">
+                <h1 class="text-center">Volunteers for  {{e}}:</h1>
+                <br><br><br><br>
+                
+                {% for t in activities_list %}
+                {% if e.id == t.other_event.id %}
+
+                <div class="justify-content-center text-center card px-3 py-3 h-120 shadow-lg" style="width: 18rem; margin: 0.6rem">
+                     {% comment %} <div class=" text-center card px-2 h-100" style="width: 15rem" > {% endcomment %}
+                        {% comment %} <div class="card-body text-center ui-shadow-sm" > {% endcomment %}
+                            <h4 class="" style="color: green" ><b>{{t.other_event}}</b></h4>
+                            {% comment %} <hr class="my-4 mx-auto" /> {% endcomment %}
+                            
+                            <p class=" form-control"><b>{{t.activity_time.activity}}</b></p>
+                            <p class="text-black-100"> <span><img src={% static 'general/assets/img/tilde2.png' %} width="20" height="20"></span> {{t.day}} </p>
+                            <p class="text-black-100"> <span><img src={% static 'general/assets/img/tilde2.png' %} width="20" height="20"></span> {{t.activity_time.time_start}} to {{t.activity_time.time_finish}}</p>
+                              
+                            {% if t.get_spots_left > 1 %}
+                            <p class="text-black-100"> {{t.get_spots_left}} spots left</p>
+                            {% elif t.get_spots_left == 1 %}
+                            <p class="text-black-100"> {{t.get_spots_left}} spot left</p>
+                            {% elif t.get_spots_left == 0 %}
+                            <p class="text-red" style="color:red"> no spots available </p>
+                            {% endif %}
+
+
+                            
+                        {% if t.get_spots_left > 0 %}
+                        <div class="container">
+                         <a class="btn btn-success"  href={% url 'volunteer' t.id %} class="link-success pb-1"><b>Register</b></a>
+                        </div>
+                         {% else %}
+                        <b class="" style="color:red">Registy completed</b>
+
+                        {% endif %}
+                       
+                </div>
+                              
+                <br><br><br><br><br><br><br><br>
+                {% endif %}
+                {% endfor %}
+                
+                
+
+            </div>
+            {% endfor %}
+        </div> 
+        
+        
+       
+
+
+
+{% endif %}
+{%endblock %}
+
+
