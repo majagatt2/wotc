@@ -1,0 +1,125 @@
+{% extends 'base/index_aside.html' %}
+{% load static %}
+
+{% comment %} {% block header %}
+{% endblock %}
+
+
+{% block content %}
+{% endblock %} {% endcomment %}
+<body style= "
+                background-image: url({% static 'general/assets/img/tennis_ball.jpg' %}) ;
+                background-position: center;
+                background-atachment: fixed;
+                background-repeat:no-repeat;
+                background-size: cover;
+                background-origin: content-box;
+                background-blend-mode: normal; //saturation;
+                margin-left:30%;    ">      
+
+{% block content %}
+
+{% if object_list.count > 0 %}
+
+    <section class="contact-section justify-content-center" style="margin-left:" >
+      <header class="header" style="margin-right:" >
+
+            <div class="row justify-content-center" style="padding-top: 7rem">
+              <div id="carouselExampleDark" class="carousel carousel-dark slide">
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
+    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
+  </div>
+  <div class="carousel-inner">
+    <div class="carousel-item active" data-bs-interval="10000">
+      <img src="{% static 'general/assets/img/wotc_canchal.png' %}" class="d-block w-100" alt="...">
+      <div class="carousel-caption d-none d-md-block">
+        <h5>First slide label</h5>
+        <p>Some representative placeholder content for the first slide.</p>
+      </div>
+    </div>
+    <div class="carousel-item" data-bs-interval="2000">
+      <img src="{% static 'general/assets/img/wotc_group.png' %}" class="d-block w-100" alt="...">
+      <div class="carousel-caption d-none d-md-block">
+        <h5>Second slide label</h5>
+        <p>Some representative placeholder content for the second slide.</p>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="{% static 'general/assets/img/wotc_canchal.png' %}" class="d-block w-100" alt="...">
+      <div class="carousel-caption d-none d-md-block">
+        <h5>Third slide label</h5>
+        <p>Some representative placeholder content for the third slide.</p>
+      </div>
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+            </div>
+
+          </header>
+
+
+
+            <div class="row justify-content-center" style="padding-top: 7rem">
+                {% for t in object_list %}
+                <div class="justify-content-center card px-3 py-3 h-120 shadow-lg" style="width: 22rem; margin: 0.2rem">
+                     <div class=" text-center card px-2 h-100" style="width: 20rem" >
+                        <div class="card-body text-center ui-shadow-sm" >
+                            <h5 class=""  href="{% url 'tournament_detail' t.id %}">
+                                        <a style="color:#F26B1E" href={% url 'tournament_detail' t.id %}><b>{{t}}</b></a></h5>
+                            {% comment %} <hr class="my-4 mx-auto" /> {% endcomment %}
+
+                            <p class="text-black  text-opacity-75"><span class="text-black text-opacity-25"> Place: </span>{{t.place}}</p>
+                            {% for d in t.day.all %}
+                            {% if forloop.first %}
+                                <div class="small text-black"><span class="text-black text-opacity-50"> Start:</span> <b>{{d.day}}</b>
+                                    {% comment %} <span>
+                                        {% if d.time_start %}
+                                        <div class="small text-black">
+                                        <b>{{d.time_start}} to {{d.time_finished}}</b>
+                                        </div>
+                                        {% endif %}
+                                    </span> {% endcomment %}
+                                    <br>
+
+
+                                </div>
+                                {% endif %}
+                            {% endfor %}
+
+                        </div>
+                            <a href={% url 'tournament_detail' t.id %} class="link-success text-decoration-none pb-1 "><b><i class="bi bi-info-circle-fill"></i> More Information</b></a>
+                            <br>
+                            <a href={% url 'list_registered_event' t.id %} class="link-info text-end pb-1 "><b>Registered List</b></a>
+                    </div>
+                </div>
+
+               
+
+
+                {% endfor %}
+
+
+            </div>
+
+        {% comment %} </div> {% endcomment %}
+
+
+    </section>
+
+     
+
+
+{% endif %}
+{%endblock %}
+  </body>
+

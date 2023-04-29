@@ -1,0 +1,36 @@
+{% extends "base/index_forms.html" %}
+{% load crispy_forms_tags %}
+
+
+
+{% block content %}   
+<div class="justify-content-center pt-5   bg-white small bg-opacity-50 text-black">
+    <br><br><br><br>    
+<form  method="POST" class="needs-validation " novalidate="" enctype="multipart/form-data">
+         
+            {% csrf_token %}
+               
+        <div class=" container ">
+            <h4 class="mb-3 text-center">Update your personal information</h4>
+            <br>
+            <div class="row">
+                 {{form | crispy}}
+            </div>        
+
+        <div class="d-flex justify-content-end">                  
+            <a type="reset" class="btn btn-secondary" href={% url 'my_profile' %}>Back</a>
+            &nbsp;                 
+            <input type="submit" class="btn btn-primary" value="Save">                    
+        </div>
+    </div>
+        <br>
+</form>
+</div>
+{% endblock  %}
+
+
+{% block section %}
+{% endblock %}
+           
+
+

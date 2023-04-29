@@ -1,0 +1,41 @@
+{% extends 'base/index_forms.html' %}
+{% load static %}
+
+{% block nav %}
+{% endblock %}
+
+
+
+{% block content %}
+    <section style= "
+                background-image: url({% static 'general/assets/img/wotc_canchal.png' %}) ;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-atachment: scroll;
+                background-size: cover;
+                
+                 " class="masthead text-center" id="">
+        <div class="container justify-content-center px-4 px-lg-5 pt-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-lg-8">
+                    
+                    <div><br>
+                        hello
+                        {% for n in object_list %}
+                        {{n|safe}}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+           {% comment %} <img class="img-fluid" src="{% static 'general/assets/img/ipad.png' %}" alt="..." />  {% endcomment %}
+        </div>
+    </section>
+
+
+
+
+{% block section %}
+{% endblock %}
+
+
+{% endblock %}

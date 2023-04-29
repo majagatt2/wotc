@@ -1,0 +1,57 @@
+{% extends "base/index_forms.html" %}
+
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+{% block content %}
+
+<div class="justify-content-center pt-5   bg-white bg-opacity-50 text-black">
+  
+  <form method="POST" class="needs-validation pt-5"  novalidate="" enctype="multipart/form-data">
+    {% csrf_token %}
+    
+    
+
+    <div class="container">
+    <div class="text-center">
+      {% for n in about %}  
+      {{n|safe}}
+      {% endfor %}
+    </div>
+ 
+    {{form| crispy}}
+
+    {% comment %} <div class="form-check">
+      <label class="form-check-label">
+        <input type="checkbox" class="form-check-input" required>
+      Checked
+      </label>
+    </div> {% endcomment %}
+                  
+    <br><br>
+    <div class="d-flex justify-content-center">
+      <a class="btn-secondary btn" href={% url 'login' %}>Later</a>
+      &nbsp;
+      <input class="w-10 btn-primary btn" type="submit" value="Join us">
+    </div>
+    <br><br>
+                      
+
+  </div>
+  </form>
+  
+</div>
+
+{% endblock %}
+
+{% block section %}
+{% endblock %}
+
+   
+         
+
+
+            
+            
+  

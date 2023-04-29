@@ -1,0 +1,147 @@
+{% extends "base/index_forms.html" %}
+    {% load static %}
+{% load crispy_forms_tags %}
+{%  if user.is_authenticated %}  
+  
+{% block content %}
+
+<div class="justify-content-center pt-5   bg-black small bg-opacity-50 text-white">
+<br><br><br><br>
+        <form  method="POST" class="needs-validation " enctype="multipart/form-data" onsubmit="send();">
+            {% csrf_token %}
+             <div class=" container ">
+                <h2 class="text-center">Membership</h2>
+                <div class="row g-3 justify-content-center">
+                    <div class="col-md-6 ">
+                        <h3 class="text-center">Activation:</h3>
+                        <br>
+                   
+                            <div class="form-control-btn-group">     
+                                    <div class="row-item">{#tournament#}
+                                        <label> {{form.person.label}}</label>
+                                        <select name="person" id="id_person" class="form-control"  required>
+                                            {% comment %} <option value='0'></option> {% endcomment %}
+                                            {% for x in member_family %}
+                                                <option value="{{x.id}}">{{x}}</option>
+                                            {% endfor %} 
+                                        </select>
+                                    </div>
+                                    <br>
+                                    <div class="row-item">{#tournament#}
+                                        <label> {{form.date_period.label}}</label>
+                                        <select name="date_period" id="id_date_period" class="form-control"  required>
+                                            {% comment %} <option value='0'></option> {% endcomment %}
+                                            {% for x in period %}
+                                                <option value="{{x.id}}">{{x}}</option>
+                                            {% endfor %} 
+                                        </select>
+                                    </div>
+                                    <br>
+                                    <div class="row-item">{#tournament#}
+                                        <label> {{form.payment_cost.label}}</label>
+                                        <select name="payment_cost" id="id_payment_cost" class="form-control"  required>
+                                          
+                                            <option value={{form.payment_cost}}</option>
+                                           
+                                        </select>
+                                    </div>
+                                    <br>
+                                    <div class="row-item">{#tournament#}
+                                        <label class=""> {{form.type_member.label}}</label>
+                                        <br>
+                                        <select name= "type_member" id="id_type_member" class="form-control">
+                                            {% comment %} <option value=''></option> {% endcomment %}
+                                            {% for x in payment_costs %}
+                                            {{x}}
+                                            <option value="{{x.category}}">{{x.category}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <br>
+                                    <div class="row-item">{#tournament#}
+                                        <label> {{form.amount.label}}</label>
+                                        <select name="amount" id="id_amount" class="form-control"  required >
+                                            {% comment %} <option value=''></option> {% endcomment %}
+                                            {% for x in payment_costs %}
+                                            <option value="{{x.price}}" data-chained="{{x}}">{{x.price}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <br>
+                                    <div class="row-item">{#tournament#}
+                                        <label> {{form.payment_method.label}}</label>
+                                        <select name="payment_method" id="id_payment_method" class="form-control"  required>
+                                           {% comment %} {% for x in payment_method %} {% endcomment %}
+                                            <option value={{form.payment_method}}</option>
+                                            {% comment %} {% endfor %} {% endcomment %}
+                                        </select>
+                                    </div>
+                                    <br>
+                                    <p>If paying by Credit Card / PayPal, click on "Donate" at the bottom left of the screen</p>
+
+                                    <p>If paying by Check please mail the check to Tom Andrews: 2117 Grandview Rd., Moundsville, WV  26041 (Pay to the order of: WOTC)</p>
+
+                                    <div class="row-item"> {#comment about payment#}
+                                        <label> {{form.payment_comment.label}}</label>
+                                        <input class="form-control" placeholder="Please, add check number or other information about payment"{{form.payment_comment}}
+                                    </div>
+                                    
+                                    
+                            </div>
+
+                    <br><br>
+                    {% comment %} <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
+                            <label class="form-check-label" for="invalidCheck">
+                                Declaro haber leído y entendido las Bases y Condiciones del evento 
+                                <a href="https://triatloncordoba.org/eventos/">triatloncordoba.org/eventos/ </a>
+                            </label>
+                    </div>
+                    <br>
+                    <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
+                            <label class="form-check-label" for="invalidCheck">
+                                Declaro haber leído y entendido el reglamento de esta competencia
+                            </label>
+                    </div> {% endcomment %}
+                    <br>
+                    <div class="d-flex justify-content-end">
+                            
+                        <a class="btn btn-secondary" href={% url 'my_profile' %}>Back</a>
+                        &nbsp;    
+                        <input id="btn" class="btn btn-primary" type="submit" value="Save">
+                    </div>
+
+
+                   
+                </div>
+                    
+            </div>            
+        </form>
+</div>
+            
+   
+        
+
+<br><br><br><br><br><br>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="{% static 'registro/js/jquery.chained.min.js' %}"></script>
+
+<script>
+  $(function(){
+      $("#id_type_member").val("{{ form.type_member.id }}").change();
+      $("#id_amount").val("{{form.amount.id}}").change();
+      $("#id_amount").chained("#id_type_member");
+      
+      
+  });
+  </script>
+
+
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+
+{% endif %}

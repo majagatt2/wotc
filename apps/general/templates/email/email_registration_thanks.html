@@ -1,0 +1,43 @@
+{% extends 'base/index_forms.html' %}
+{% load static %}
+
+
+{% block nav %}
+{% endblock %}
+
+
+
+{% block content %}
+
+
+            <div class="container align-items-center justify-content-center">
+                <div class="justify-content-center">
+                    <div class="col-lg-6">
+                    
+                    <!-- Email input -->
+                       
+                    <div class="">
+                        <h1> Thank you  <b style="color:#299749">{{person.first_name}} {{person.last_name}}</b> for registering for the event . <b style="color:#F26B1E">{{event}}</b></h1>
+                        <h3>please let us know if you have any question about at wheelingoglebaytennisclub@gmail.com</h3>
+                        <br>
+                        <p>You can find additional information and links on our website, http://wotennisclub.weebly.com/</p>
+                        <br>  
+                        <p>WOTC</p>
+                    </div>
+                    <div class="container justify-content-center">
+                    <a class="btn btn-primary" href="https://wotc.pythonanywhere.com/users/accounts/login/"><b>Sign in</b></a>
+                    </div>
+                            
+                        </div>
+                    </div>
+                </div>
+               
+            </div>
+      
+
+{% endblock %}
+
+{% block section %}
+{% endblock %}
+
+

@@ -1,0 +1,78 @@
+{% extends 'base/index.html' %}
+{% load static %}
+
+{% block content %}
+{% if form.errors %}
+  <p>No es un usuario y contraseña válidos.</p>    
+
+{% endif %}
+
+{% if next %}
+    {% if user.is_authenticated %}
+    <p>Tu nombre de usuario y contraseña no coinciden. Intentalo de nuevo.</p>
+    {% else %}
+    <p>Por favor ingresa tu usuario y contraseña para acceder a esta página.</p>
+    {% endif %}
+{% endif %}
+
+<section class="text-center" id="login">
+            <div class="container px-4 px-lg-5 d-flex h-100 align-items-center justify-content-center">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-lg-12">
+                        
+                        
+                    
+                        <form method="POST" class="">
+                            {% csrf_token %}
+                            <!-- Email input -->
+                            <div class="form-outline mb-4">
+                                <input class="form-control" placeholder="Enter your email address..." {{form.email}}/>
+                               
+                            </div>
+
+                            <!-- Password input -->
+                            <div class="form-outline mb-4">
+                                <input type="password" class="form-control" placeholder="Enter your password..."  {{form.password}}/>
+                                
+                            </div>
+
+                            <!-- 2 column grid layout for inline styling -->
+                           
+                            <div class="row mb-4">
+                                <div class="col d-flex justify-content-center">
+                                <!-- Checkbox -->
+                                  <div class="col">
+                                <!-- Simple link -->
+                                <a href="#!" class="text-white">Forgot password?</a>
+                                </div>
+                                </div>
+                            </div>
+
+                            <!-- Submit button -->
+                            {% comment %} <a class="btn btn-primary btn-block mb-4" href={% url 'principal' %}>Sign in</a> {% endcomment %}
+                            <input type="submit" class="btn btn-primary btn-block mb-4" value="Sign In">
+
+                            <!-- Register buttons -->
+                            <div class="text-center">
+                                <p class="text-white">Not a member? <a href={% url 'register' %}>Register</a></p>
+                                
+                            </div>
+                        </form>
+                        </div>
+                    </div>
+                </div>
+                {% comment %} <img class="img-fluid" src="{% static 'assets/img/wotc_canchal.png' %}" alt="..." /> {% endcomment %}
+            </div>
+        </section>
+
+{% endblock %}
+
+
+
+{% block section %}
+
+ 
+
+
+
+{%endblock %}

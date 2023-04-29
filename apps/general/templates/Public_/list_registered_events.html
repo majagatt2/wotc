@@ -1,0 +1,102 @@
+{% extends 'base/index_forms.html' %}
+{% load static %}
+
+
+
+{% block content %}
+
+
+{% if  object_list|length == 0 %}
+    <td><h2>Do not registers</h2></td>
+{% endif %}
+
+
+<div class="justify-content-center pt-5   bg-white small bg-opacity-50 text-black">
+    <br><br>
+    
+<div class=" container ">
+
+    
+    <form method="GET">
+        <br>
+       {% for tournament in tournament %}
+       {% for t in tournament.day.all %}
+        <h4 class="" style="color:green; font-weight: bold">{{tournament}} - {{t.day}} </h4>
+        {% endfor %}
+      
+        <br>
+        
+        <div  style="overflow-x:auto; ">
+            <table id = "" class="table " >
+                <thead class="table-info">
+                    <tr class="">
+                        
+                        <th>Name</th>
+                        <th>Division</th>
+                        <th>Partner</th>
+                    </tr>
+                </thead>
+
+                <tbody class="table-active">
+                    
+                    {% if registers %}
+                   
+                        {% for n in registers %}
+                            {% if n.condition  %}
+                            
+                            {% if tournament.id == n.tournament.id %}
+                                <tr>
+                                    <td>{{n.person.last_name|title}}, {{n.person.first_name|title}}</td>
+                                    {% comment %} <td>{{n.person.get_age}}</td>
+                                    <td>{{n.person.email|lower}}</td>
+                                    <td>{{n.person.phone}}</td>
+                                    <td >{{n.day_time}}</td> {% endcomment %}
+                                    <td >{{n.division}}</td>
+                                    {% comment %} <td >{{n.level}}</td> {% endcomment %}
+                                    <td >{% if n.partner == None %}<p class="text-center"></p>{% else %} {{n.partner}}{% endif %}</td>
+                                </tr>
+                            {% endif %}
+
+                            {% else %}
+                            {% if tournament.id == n.tournament.id %}
+                            <tr style="color:#BE0D42">
+                            <td >{{n.person.last_name|title}}, {{n.person.first_name|title}}  - Pending</td>
+                            <td>Pending admin</td>
+                            <td>Pending admin</td>
+                            </tr>
+                            {% endif  %}
+
+                            {% endif %}
+                        {% endfor %}
+                    {% else%}
+                        <tr>
+                            <td><p>no record yet</p></td>
+                            <td><p>no record yet</p></td>
+                            <td><p>no record yet</p></td>
+                        </tr>
+                        
+                    {% endif %}
+                
+                </tbody>
+            </table>
+            <br>
+        </div>
+        {% endfor %}
+        <div class="d-flex justify-content-center pb-5">
+            {%  if user.is_authenticated %}  
+            <a class="btn btn-secondary " href={% url 'tournament_members' %}>Return</a>
+            {% else %}
+            <a class="btn btn-secondary " href={% url 'tournament_public' %}>Return</a>
+            {% endif %}
+
+        </div>
+    </form>   
+    
+</div> 
+</div>
+
+   
+{% endblock  %}          
+
+
+      

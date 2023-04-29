@@ -1,0 +1,62 @@
+{% extends 'base/index_forms.html' %}
+{% load static %}
+
+
+{% comment %} {% block header %}
+{% endblock %}
+
+
+{% block content %}
+{% endblock %} {% endcomment %}
+
+{% block content %}
+
+    {% if object_list.count > 0 %}
+    
+        <section class="contact-section justify-content-center" >
+      
+            <div class="row justify-content-center" style="padding-top: 7rem">
+                {% for t in object_list %}
+                <div class="justify-content-center card px-3 py-3 h-120 shadow-lg" style="width: 22rem ; margin: 0.2rem" ;>
+                    <div class="text-center card px-2 h-100" style="width: 20rem" >
+                        <div class="card-body text-center" >
+                            <h5 class=""  href="{% url 'tournament_detail' t.id %}">
+                                <a style="color:#F26B1E" href={% url 'tournament_detail' t.id %}>{{t}}</a></h5>
+                            {% comment %} <hr class="my-4 mx-auto" /> {% endcomment %}
+                            <p class="text-black  text-opacity-75"><span class="text-black text-opacity-25"> Place: </span>{{t.place}}</p>
+                            {% for d in t.day.all %}
+                            {% if forloop.first %}
+                                <div class="small text-black"><span class="text-black text-opacity-50"> Start:</span> <b>{{d.day}}</b>
+                                {% comment %} <span>
+                                    {% if d.time_start %}
+                                    <div class="small text-black">
+                                    <b>{{d.time_start}} to {{d.time_finished}}</b>
+                                    </div>
+                                    {% endif %}
+                                </span> {% endcomment %}
+                                <br>
+                                </div>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                    
+                        <a href={% url 'tournament_detail' t.id %} class="link-success text-decoration-none pb-1 "><b><i class="bi bi-info-circle-fill"></i> More Information</b></a>
+                        <br>
+                        <a href={% url 'list_registered_event' t.id %} class="link-info text-end pb-1 "><b>Registered List</b></a>
+                    </div>
+
+                </div>
+                {% endfor %}
+            </div>
+              
+        
+        </section>
+  
+    {% endif %}
+
+
+{% endblock %}
+
+
+
+

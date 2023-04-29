@@ -1,0 +1,53 @@
+{% load static %}
+{% extends 'base/index_forms.html' %}
+
+
+{% block nav %}
+{% endblock %}
+
+
+
+{% block content %}
+
+
+            <div class="container align-items-center justify-content-center">
+                <div class="justify-content-center">
+                    <div class="col-lg-6">
+                    
+                    <!-- Email input -->
+                        <img src="https://drive.google.com/file/d/1qUE-73Ptufl0xMd6Fc4l94IU6ky3cRSc/view?usp=share_link" width="50" height="50">
+
+                        https://drive.google.com/file/d/1qUE-73Ptufl0xMd6Fc4l94IU6ky3cRSc/view?usp=share_link
+                    <div class="">
+                        {% for m in member %}
+                        <h2> Welcome <strong style="color:green">{{m.first_name}} {{m.last_name}}</strong> to the Wheeling Oglebay Tennis Club!</h2>
+                        {% endfor %}
+                        <h3>We are pleased to know we share the same appreciation for this great sport of tennis.</h3>
+
+                        <h4>  As a member, you will receive updates on our various youth and adult events/programs.<br><br>
+                            You can find additional information and links on our website, http://wotennisclub.weebly.com/<br><br>
+                            We hope that you will be an active member of the organization. There are many opportunities to volunteer during the year.<br ><br>
+                            Please send any questions about the WOTC to our email, wheelingoglebaytennisclub@gmail.com
+                        </h4>
+                        <br>
+                        <h4>Thank you,</h4>
+                        <h4>WOTC Board of Directors</h4>
+                    </div>
+                    <br>
+                    <div class="container justify-content-center">
+                    <a class="btn btn-primary" href="https://wotc.pythonanywhere.com/users/accounts/login/"><b>Sign in</b></a>
+                    </div>
+                            
+                        </div>
+                    </div>
+                </div>
+               
+            </div>
+      
+
+{% endblock %}
+
+{% block section %}
+{% endblock %}
+
+

@@ -1,0 +1,84 @@
+{% extends 'base/index_forms.html' %}
+
+
+{% if user.is_authenticated %} 
+{% if request.user.is_staff %}
+
+
+
+{% block content %}
+ 
+{% if  object_list|length == 0 %}
+    <td><h2>No registered volunteers</h2></td>
+{% endif %}
+
+<br><br>
+<div class="justify-content-center pt-5   bg-white small bg-opacity-50 text-black">
+    <br>
+    <h3 class="text-center"> <b>VOLUNTEERS </b></h3>
+
+<div class=" container ">
+
+    {% for e in other_event %}
+   
+    <form method="GET">
+        <br>
+        <h4 style="color:green; font-weight: bold"> {{e}} </h4>
+       
+        <div  style="overflow-x:auto; ">
+            <table id = "" class = "display  table-light " >
+                <thead>
+                    <tr class="table-info">
+                        <th scope="col">Activitie</th>
+                        <th scope="col">day</th>
+                        <th scope="col">time</th>
+                        <th scope="col">Volunteer</th>
+                        <th scope="col">email</th>
+                        <th scope="col">phone</th>
+                        
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% if volunteer_list %}
+                        {% for v in volunteer_list %}
+                        
+                            {% if e.id == v.activities.other_event.id  %}
+                       
+                                <tr>
+                                    <td scope="row">{{v.activities.activity_time.activity}}</td>
+                                    <td scope="row">{{v.activities.day}}</td>
+                                    <td>{{v.activities.activity_time.time_start}} to {{v.activities.activity_time.time_finish}}</td>
+                                    <td>{{v.last_name|title}}, {{v.first_name|title}}</td>
+                                    <td>{{v.email|lower}}</td>
+                                    <td>{{v.phone}}</td>
+                                    
+                                    
+                                
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                    {% else%}
+                        <tr>
+                            <td><h2>No registered volunteers</h2></td>
+                        </tr>
+                        
+                    {% endif %}
+                
+                </tbody>
+            </table>
+        </div>
+    </form>
+
+    {% endfor %}  
+
+</div> 
+</div> 
+
+   
+   
+{% endblock  %}          
+{% endif %}       
+{% endif %}
+
+      

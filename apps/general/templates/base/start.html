@@ -1,0 +1,38 @@
+{% extends 'base/index.html' %}
+{% load static %}
+
+{% block header %}
+
+        <!-- Masthead-->
+        <header class="masthead" style= "
+                background-image: url({% static 'general/assets/img/tennis_ball.jpg' %}) ;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-atachment: scroll;
+                background-size: cover;">
+            <div class="container   d-flex h-100 align-items-center justify-content-center">
+                <div class="d-flex justify-content-center">
+                    <div class="text-center">
+                        {% block title %}
+                           {%  if user.is_authenticated and request.user %}  
+                                <h1 class="mx-auto my-0 text-uppercase">Oglebay</h1>
+                                <h1 class="mx-auto my-0 text-uppercase">Member</h1>
+                                <h2 class="text-white-50 mx-auto mt-2 mb-5">Wheeling Oglebay Tennis Club</h2>
+                              
+                               
+                            {% else %}
+                                <h1 class="mx-auto my-0 text-uppercase">Wheeling Oglebay</h1> <br><h1 class="mx-auto my-0 text-uppercase">Tennis Club</h1>
+                                <h2 class="text-white-50 mx-auto mt-2 mb-5"></h2>
+                                <a class="btn btn-info " href={% url 'register' %}>Join Us</a>
+                                
+                            {% endif %}
+                        {% endblock %}
+
+                        {% block content %}
+                        {% endblock %}
+                    </div>
+                </div>
+            </div>
+        </header>
+
+{% endblock %}

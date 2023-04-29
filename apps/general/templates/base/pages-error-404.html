@@ -1,0 +1,29 @@
+{% extends "base/index_forms.html" %}
+{% load static %}
+
+
+{% block nav %}
+{% endblock %}
+
+{% block content %}
+
+  
+    <div class="container justify-content-center ">
+
+      <section class="section error-404 min-vh-100 d-flex flex-column align-items-center justify-content-center">
+        <h2></h2>
+        <h2>The requested data is not available</h2>
+        {% comment %} <a class="btn" href="{% url 'index' %}">Return</a> {% endcomment %}
+        <img src={% static "general/assets/img/wotc2.svg" %} width="195" height="155" class="img-fluid py-5" alt="Page Not Found">
+        
+      </section>
+
+    </div>
+  
+
+
+{% endblock %}
+
+
+{% block section %}
+{% endblock %}

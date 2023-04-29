@@ -1,0 +1,121 @@
+{% extends "base/index_forms.html" %}
+
+
+{% block content %}
+
+<div class="justify-content-center pt-5">
+    <br>
+    <form  method="POST" class="needs-validation" novalidate="" enctype="multipart/form-data">
+
+        {% for n in tournament %}   
+
+        {% comment %} <h4 class="mb-3 text-center">{{n}}</h4> {% endcomment %}
+
+        <div class="row pt-5 justify-content-center" style="margin-left: 1rem; margin-right: 1rem">
+            <div class="col-xl-6">
+                <div class="card card-margin shadow-lg">
+                    <div class="card-header no-border">
+                        <h5 class="card-title">Event Information:</h5>
+                    </div>
+                    <div class="card-body pt-3">
+                        <div class="widget-49">
+                            <div class="widget-49-title-wrapper">
+                                <div class="date-primary text-center">
+                                    {% for i in n.day.all %}
+                                        <span class="">{{i.day}}</span>
+                                        <span class="widget-49-date-month">{{i|date:"M, Y"}}</span>
+                                        {% if i.time_start != None %}
+                                            <span class="widget-49-date-day">{{i.time_start}} to {{i.time_finished}}</span>
+                                        
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                                <div class="widget-49-meeting-info text-center">
+                                    <span><strong><h3 style="color:#F26B1E">{{n}}</h3></strong></span>
+                                    <span class="widget-49-meeting-time"></span>
+                                </div>
+                            </div>
+                            <ol class="widget-49-meeting-points">
+                                <li class="widget-49-meeting-item"><span>Place: <b>{{n.place}}</b></span></li>
+                                
+                                <li class="widget-49-meeting-item">
+                                    <span>Types:
+                                    {% for i in n.type.all%}
+                                    <b>{{i}} -</b>
+                                    {% endfor %}
+                                    </span>
+                                </li>
+
+                                <li class="widget-49-meeting-item">
+                                    <span>Divisions:
+                                    {% for i in n.division.all%}
+                                    <b>{{i}} -</b>
+                                    {% endfor %}
+                                    </span>
+                                </li>
+
+                                <li class="widget-49-meeting-item">
+                                    <span>Levels:
+                                    {% for i in n.level.all%}
+                                    <b>{{i}} -</b>
+                                    {% endfor %}
+                                    </span>
+                                </li>
+
+                            </ol>
+                        
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+        </div>    
+        
+        <div class="row pt-3 justify-content-center" style="margin-left: 1rem; margin-right: 1rem">
+            <div class="col-xl-6">
+                <div class="card card-margin shadow-lg">
+                    <div class="card-header no-border ">
+                        <h5 class="card-title">Bases, Conditions and Considerations:</h5>
+                    </div>
+                    <div class="card-body pt-3">
+                        <div class="widget-49">
+                            <div class="widget-49-title-wrapper">
+                                <div class="">
+                                    <span class="widget-49-pro-title"></span>
+                                    <span class="widget-49-pro-title">{{n.details|safe}}</span>
+                                <br>
+                           
+                                <div class="d-flex justify-content-end">                  
+                                {%  if user.is_authenticated %}                   
+                                <a class="btn btn-secondary" href={% url 'tournament_members'%}>Back</a>
+                                {% else %}
+                                <a class="btn btn-secondary " href={% url 'tournament_public' %}>Back</a>
+                                {% endif %}
+                                &nbsp;
+                                {%  if user.is_authenticated %}                  
+                                <a class="btn btn-primary" href={% url 'registration_members' n.id %}>Register</a>
+                                {% else %}
+                                <a class="btn btn-primary" href={% url 'registration_public' n.id %}><b>Public</b> Register</a>
+                                &nbsp;
+                                <a class="btn btn-warning" href={% url 'login' %}><b>Member</b> Register</a>
+                                {% endif %}
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>   
+        </div>            
+
+        {% endfor %}
+        <br>
+    </form>
+    <br><br><br>
+</div>
+
+
+{% endblock  %}
+
+{% block section%}
+{% endblock  %}

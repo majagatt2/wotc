@@ -1,0 +1,96 @@
+{% extends 'base/index_forms.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% comment %} {% block header %}
+{% endblock %}
+
+
+{% block content %}
+{% endblock %} {% endcomment %}
+
+{% block content %}
+
+{% if object_list.count > 0 %}
+
+    <div class="justify-content-center pt-5   bg-white small bg-opacity-50 text-black">
+
+      <div class=" container ">
+        {% for e in other_event %}
+            <div class="row justify-content-center" style="padding-top: 5rem">
+                <h1 class="text-center">Volunteers for  {{e}}:</h1>
+                <br><br><br><br>
+
+                <table class = "table ">
+                        <thead class="text-center">
+                            <tr>
+                                <th>Activitie</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Spots</th>
+                               
+
+
+                            </tr>
+                        </thead>
+
+                        <tbody class="text-center">
+                            {% for t in activities_list %}
+                            {% if e.id == t.other_event.id %}
+                            <tr>
+                                <td>
+                                    {% if t.get_spots_left > 0 %}
+                                        <a href={% url 'volunteer' t.id %} class="link-primary text-decoration-none pb-1 "><b> {{t.activity_time.activity}}  </b><i class="bi bi-pencil-square" style="color:blue"></i></a>
+                                    {% else %}
+                                        <a href="" class="link-danger text-decoration-none pb-1 "><b> {{t.activity_time.activity}}</b></a>
+                                    {% endif %}
+                                </td>
+                                <td><p class="text-black-100"><b>{{t.day}}</b>  </p></td>
+                                <td><p class="text-black-100"> <b>{{t.activity_time.time_start}} to {{t.activity_time.time_finish}}</b></p></td>
+
+                                <td>
+                                {% if t.get_spots_left > 1 %}
+                                <p class="text-black-100"> <b>{{t.get_spots_left}} spots left</b></p>
+                                {% elif t.get_spots_left == 1 %}
+                                <p class="text-black-100"> <b>{{t.get_spots_left}} spot left</b></p>
+                                {% elif t.get_spots_left == 0 %}
+                                <p class="text-red" style="color:red"> no spots available </p>
+                                {% endif %}
+                                </td>
+
+                                {% comment %} <td>
+                                {% if t.get_spots_left > 0 %}
+                                <div class="container">
+                                <a class="badge bg-primary"  href={% url 'volunteer' t.id %} ><b>Register</b></a>
+                                </div>
+                                {% else %}
+                                <b class="" style="color:red">Registy completed</b>
+
+                                {% endif %}
+                                </td> {% endcomment %}
+
+
+                            </tr>
+                            {% endif %}
+                            {% endfor %}
+                        </tbody>
+
+
+                    </table>
+
+
+
+
+            </div>
+            {% endfor %}
+        </div>
+
+
+
+
+
+
+{% endif %}
+{%endblock %}
+
+

@@ -1,0 +1,203 @@
+{% extends "base/index_forms.html" %}
+
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+    <div class="justify-content-center pt-5   bg-white small bg-opacity-50 text-black">
+        <br><br>
+        <form  method="POST" class="needs-validation " enctype="multipart/form-data" required>
+          {% csrf_token %}
+             <br><br>
+        <div class=" container ">
+            <h2 class="text-center text-black">Registration:</h2>
+            <h4 class="text-center" style="color:#148F77">{{request.user.first_name}} {{request.user.last_name}}</h4>
+        
+            
+            <br>
+            <div class="row-item">{#tournament#}
+                <label> {{form.tournament.label}}</label>
+                <select name="tournament" id="id_tournament" class="form-control"  required>
+                    {% for x in tournament %}
+                        <option value="{{x.id}}">{{x}}</option>
+                    {% endfor %} 
+                </select>
+            </div>
+            <br>
+            <div class="row-item"> {#day_time#}
+                <div> {{form.day_time.label}}</div>
+                    <select name="day_time" id="id_day_time"  class="form-control" required> 
+                       
+                        {% for x in tournament %}
+                        {% for e in x.day.all %}
+                        {{e.day}}
+                            {% if e.time_start %}
+                            <option value="{{e.id}}" data-chained="{{x.id}}">{{e}}</option>
+                            {% else %}
+                            <option value="{{e.id}}" data-chained="{{x.id}}">{{e.day}}</option>
+                            {% endif %}
+                        {% endfor %}
+                        {% endfor %}
+                    </select>
+            </div>
+            <br>
+            <div class="row-item">{#division#}
+                <div> {{form.division.label}}</div>
+                    <select name="division" id="id_division" class="form-control" required> 
+                        
+                        {% for x in tournament %}
+                        {% for e in x.division.all %}
+                        <option value="{{e.id}}" data-chained="{{x.id}}">{{e}}</option>
+                        {% endfor %}
+                        {% endfor %}
+                    </select>
+            </div>
+            <br>
+            <div class="row-item"> {#level#}
+                <div> {{form.level.label}}</div>
+                    <select name="level" id="id_level" class="form-control" required> 
+                        
+                        {% for x in tournament %}
+                        {% for e in x.level.all %}
+                        <option value="{{e.id}}" data-chained="{{x.id}}">{{e}}</option>
+                        {% endfor %}
+                        {% endfor %}
+                    </select>
+            </div>
+            <br>
+            <div class="row-item"> {#nombre_equipo_doubles#}
+                <label> {{form.partner.label}}</label>
+                <input class="form-control"  placeholder="Please, type your partner's if selected doubles."{{form.partner}}
+            </div>
+            <br>
+            <div class="row-item"> {#conflicts#}
+                <label> {{form.conflicts.label}}</label>
+                <input class="form-control" placeholder="Please, let us know if any time conflicts."{{form.conflicts}} 
+            </div>
+            <br>
+            {% if request.user.get_age < 16 %}
+                <div class="container form-control ">
+                    <p><b>This fields are required for children under 16:</b></p> 
+                    <div class="row-item">{#parent_relation#}
+                        <div> {{form.parent_relation.label}}</div>
+                            <select name="parent_relation" id="id_parent_relation" class="form-control"  required > 
+                                <option value={{form.parent_relation}}</option>
+                            </select>
+                    </div>
+                    <br>
+                    <div class="row-item"> {#parent#}
+                        <label> {{form.parent.label}}</label>
+                        <input class="form-control" placeholder="This field is required for children under 16"{{form.parent}}
+                    </div>
+                    <br>
+                    <div class="row-item"> {#email_parent#}
+                        <label> {{form.email_parent.label}}</label>
+                        <input class="form-control" placeholder="This field is required for children under 16"{{form.email_parent}}
+                    </div>
+                    <br>
+                    <div class="row-item"> {#phone_parent#}
+                        <label> {{form.phone_parent.label}}</label>
+                        <input class="form-control" placeholder="This field is required for children under 16"{{form.phone_parent}}
+                    </div>
+                    <br>
+                </div>
+            {% endif %}
+            <br>
+            <div class="container border p-4 shadow-sm">
+            <p><b>About Payment:</b></p> 
+            <div class="row-item"> {#payment_cost#}
+                <div> {{form.payment_cost.label}}</div>
+                    <select name="payment_cost" id="id_payment_cost" class="form-control" required> 
+                       
+                        {% for x in tournament %}
+                        {% for e in x.payment_cost.all %}
+                        <option value="{{e.id}}" data-chained="{{x.id}}">{{e}}</option>
+                        {% endfor %}
+                        {% endfor %}
+                    </select>
+            
+            </div>
+            <br>
+            <div class="row-item"> {#payment_type#}
+                <div> {{form.payment.label}}</div>
+                    <select name="payment" id="id_payment" class="form-control" required> 
+                      
+                        {% for x in tournament %}
+                        {% for e in x.payment.all %}
+                        <option value="{{e.id}}" data-chained="{{x.id}}">{{e}}</option>
+                        {% endfor %}
+                        {% endfor %}
+                    </select>
+            </div>
+            <br>
+            <div class="row-item"> {#comment about payment#}
+                <label> {{form.payment_comment.label}}</label>
+                <input class="form-control" placeholder="Please, Add comments about check or other information about payment"{{form.payment_comment}} 
+            </div>
+        </div>
+            <br><br>
+            
+
+
+                    
+                    <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
+                            <label class="form-check-label" for="invalidCheck">
+                                Injury Release:  I hereby, for myself, my heirs, executors and administrators, waive and release any and all right and claims for damages I may have against the Wheeling Oglebay Tennis Club, their agents, successors, and assigns any and all injuries which may be suffered by me/my child  in connection with my participation in this event.  
+                               
+                            </label>
+                    </div>
+                    <br>
+                    <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required  onsubmit="send();">
+                            <label class="form-check-label" for="invalidCheck">
+                                Photo Release: I grant permission for the WOTC to use photos taken during this program on a website, on a Facebook page, and in press releases.
+                            </label>
+                    </div>
+                    <br>
+                    <div class="d-flex justify-content-end">
+                            
+                        <a class="btn btn-secondary" href={% url 'tournament_members' %}>Back</a>
+                        &nbsp;    
+                        <input id='btn' class="btn btn-primary" type="submit" value="Save">
+                        
+                    </div>
+            </div> 
+        </form>
+        <br><br>
+    </div>    
+</div>
+        
+
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="{% static 'general/js/jquery.chained.min.js' %}"></script>
+
+<script>
+  $(function(){
+ 
+        $("#id_event").val("{{ form.tournament.id }}").change();
+        $("#id_day").val("{{form.day_time.id}}").change();
+        $("#id_day_time").chained("#id_tournament");
+        $("#id_division").val("{{form.division.id}}").change();
+        $("#id_division").chained("#id_tournament");
+        $("#id_level").val("{{form.level.id}}").change();
+        $("#id_level").chained("#id_tournament");
+        $("#id_payment_cost").val("{{form.payment_cost.id}}").change();
+        $("#id_payment_cost").chained("#id_tournament");
+        $("#id_payment").val("{{form.payment.id}}").change();
+        $("#id_payment").chained("#id_tournament");
+  });
+  </script>
+
+
+  
+
+</div>
+
+{% endblock %}  
+
+{% block section %}
+{% endblock %}        

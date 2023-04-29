@@ -1,0 +1,261 @@
+{% extends 'base/index_forms.html' %}
+
+{% if user.is_authenticated %} 
+{% if request.user.is_staff %}
+
+
+{% block content %}
+
+
+<div class="container justify-content-center pt-5">
+     
+        <div class="row pt-5">
+
+          <!-- Left side columns -->
+            <div class="col-lg-3 pt-1">
+                <div class="row">
+                    <!-- Total People -->
+                    <div class="col-xxl-12 pt-1 ">
+                        <div class="card info-card sales-card">
+                        <div class="card-body bg-success bg-opacity-25">
+                            <h5 class="card-title"> <i class="bi bi-people"></i> People <span>| Registered</span></h5>
+
+                            <div class="d-flex justify-content-center">
+                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                
+                            </div>
+                            <div class="ps-3">
+                                <h3>{{people|length}}</h3>
+                                <span class="text-success small pt-1 fw-bold"></span> <span class="text-muted small pt-2 ps-1"></span>
+
+                            </div>
+                            </div>
+                        </div>
+
+                        </div>
+                    </div><!-- End People -->
+                </div>
+                <div class="row">
+                    <!-- Total Members -->
+                    <div class="col-xxl-12 pt-1">
+                        <div class="card info-card revenue-card">
+                        <div class="card-body shadow-lg bg-info-light ">
+                            
+                            <h5 class="card-title"><i class="bi bi-people-fill"></i> Members <span style="color:green">| Active</span></h5>
+
+                            <div class="d-flex justify-content-center">
+                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                
+                            </div>
+                            <div class="">
+                                <h3>{{members}}</h3>
+                                <span class="text-success small pt-1 fw-bold"></span> <span class="text-muted small pt-2 ps-1"></span>
+
+                            </div>
+                            </div>
+                        </div>
+
+                        </div>
+                    </div><!-- End Total Asociados -->
+                </div>
+                {% comment %} <div class="row">
+                    <!-- Sponsors -->
+                    <div class="col-xxl-12 pt-1">
+                        <div class="card info-card customers-card">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="bi bi-emoji-smile"></i> Sponsors <span>| Active</span></h5>
+
+                            <div class="d-flex justify-content-center">
+                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                
+                            </div>
+                            <div class="ps-3">
+                                <h3>n/d</h3>
+                                <span class="text-danger small pt-1 fw-bold"></span>
+                                <span class="text-muted small pt-2 ps-1"></span> 
+                            </div>
+                            
+                            </div>
+
+                        </div>
+                        </div>
+
+                    </div><!-- End Sponsors -->
+                </div> {% endcomment %}
+            
+            </div>
+        
+           
+            <div class="col-lg-9">
+            
+                <div class="row pt-2">    
+                    <!-- Tabla x Member Type -->
+                    <div class="col-lg-12">
+                        <div class="card top-selling overflow-auto">
+                        <div class="card-body pb-1 shadow-sm" >
+                            <h4 class="card-title"><b>{{members}}</b>  Member by Types<span style="color:green">| Active </span> </h4>
+
+                            <div class="container justify-content-center pt-3">
+                            <table class="table table-sm">
+                            <thead classs="table-info" >
+                                <tr class="text-center">
+                                <th>Nº</th>
+                                <th>Member Type</th>
+                                <th>Members Count</th>
+                                
+                                </tr>
+                            </thead>
+                            <tbody class="text-center">
+                                {% for key, value in members_by_type.items %}
+                                {% if value > 0 %}
+                                <tr>
+                                
+                                <td>{{forloop.counter}}</td>
+                                <td class="text-primary fw-bold">{{key}}</td>
+                                <td ><b>{{value}}</b></td>
+                                
+                                </tr>
+                                {% endif %}
+                                {% endfor %}
+                                
+                            </tbody>
+                            </table>
+                            </div>
+
+                        </div>
+
+                        </div>
+                    </div><!-- End Tabla por Member Type -->
+                </div>
+
+                <div class="row pt-2">    
+                <!-- Events Active -->
+                    <div class="col-lg-12">
+                        <div class="card recent-sales overflow-auto">
+
+                        <div class="card-body">
+                            <h4 class="card-title"><b>{{tournaments|length}}</b> Events Active <span>| Details</span></h4>
+                            <div class="container justify-content-center pt-3">
+                            <table class="table table-sm table-overflow">
+                            <thead class="text-center">
+                                <tr>
+                                <th>Date</th>
+                                <th>Event</th>
+                                <th>Total Registered</th>
+                                <th>Active</th>
+                                <th>Pending</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-center">
+
+                                {% for t in tournaments %}
+                                    {% for key , value in registered.items %}
+                                    {% if t == key %}
+                                    
+                                        <tr>
+                                       
+                                        <td>{{t.date|date:"M d Y"}}</td>
+                                      
+                                        
+                                        <td>{{t}}</td>
+                                        <td><b>{{value.0}}</b></td>
+                                        <td>{{value.1}}</td>
+                                        {% if value.2 > 0 %}
+                                        <td style="color:red">{{value.2}}</td>
+                                        {% else %}
+                                        <td>{{value.2}}</td>
+                                        {% endif %}
+
+                                        {% if value.0 == 0 %}
+                                        <td><span class="badge bg-info">not records</span></td>
+                                        {% else %}
+
+                                        {% if value.0 > 0 and value.0 == value.1  %}
+                                        <td><span class="badge bg-success">excelent</span></td>
+                                        {% elif value.0 > 0 and value.0 != value.1 %}
+                                        <td><span class="badge bg-danger">pendings</span></td>
+                                        {% endif %}
+                                        {% endif %}
+                                        </tr>
+                               
+                                {% endif %}
+                                {% endfor %}
+                                {% endfor %}
+                            </tbody>
+                            </table>
+                        </div>
+
+                        </div> 
+
+                        </div>
+                    </div><!-- End Events Active -->
+                </div>
+
+                <div class="row pt-2">    
+                <!-- All Events -->
+                    <div class="col-lg-12">
+                        <div class="card recent-sales overflow-auto">
+
+                        <div class="card-body">
+                            <h4 class="card-title"> All Events <span>| Resume</span></h4>
+                            <div class="container justify-content-center pt-3">
+                            <table class="table table-sm table-overflow">
+                            <thead class="text-center">
+                                <tr>
+                                <th>Date</th>
+                                <th>Event</th>
+                                <th>Total Registered</th>
+                                <th>$ Payments</th>
+                                <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-center">
+
+                                {% for t in tournaments_all %}
+                                    {% for key , value in payments.items %}
+                                    {% if t == key %}
+                                    
+                                        <tr>
+                                        
+                                        <td>{{t.date|date:"M d Y"}}</td>
+                                        
+                                        
+                                        <td>{{t}}</td>
+                                        <td><b>{{value.0}}</b></td>
+                                        <td>$ {{value.1}}</td>
+
+                                        {% if t.condition %}
+                                        <td><span class="badge bg-info">Active</span></td>
+                                        {% else %}
+                                        <td><span class="badge bg-info-light">Not active</span></td>
+                                        {% endif %}
+                                        </tr>
+                               
+                                {% endif %}
+                                {% endfor %}
+                                {% endfor %}
+                            </tbody>
+                            </table>
+                        </div>
+
+                        </div> 
+
+                        </div>
+                    </div><!-- End All Events -->
+                </div>
+          
+            </div><!-- End News & Updates -->
+
+        </div><!-- End Right side columns -->
+
+</div>
+     
+
+
+   
+{% endblock  %}   
+   
+{% endif %}       
+{% endif %}
+
+      

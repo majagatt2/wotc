@@ -1,0 +1,366 @@
+{% extends "base/index_forms.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{%  if user.is_authenticated %}
+
+{% comment %} {% block header %}
+{% endblock %}
+
+{% block content %}
+{% endblock %} {% endcomment %}
+
+{% block content %}
+
+{% if object_list %}
+{% for c in object_list %}
+
+
+{% if c == request.user %}
+<div class="pt-5" >
+<div class="justify-content-center pt-5" >
+    
+    <form method="POST" enctype="multipart/form-data"> 
+        {% csrf_token %}    
+       
+        <div class="row justify-content-center" style="margin-left: 1rem; margin-right: 0.3rem"> <!-- Memberships -->
+            <div class="col-xl-10 ">
+                <div class="card shadow-lg">
+                    <div class="card-body pt-2">
+                    <!-- Bordered Tabs -->
+                        <div class="tab-content pt-2 ">
+                            <!-- MEMBERSHIPS -->
+                            <div class="tab-pane fade show active profile-overview " id="profile-overview">
+                                <h4 class="card-title" style="color:green"> 
+                                    <img  src="{% static 'general/assets/img/logo_nuevo-removebg.png' %}" alt="smail" width="90" height="90">
+                                    Membership </h4>
+                                <div class="row justify-content-center">
+                                    {% if status.count > 0 %} <!-- si ya está en el listado de miembros -->
+                                        {% for n in status %}
+                                            {% if forloop.last %}
+                                            {% if family_groups %}
+                                                {% for f in family_groups %}
+                                                    {% if f.person %}
+                                                        {% if n.is_member and n.get_status %}
+                                                            <p class="text-center">You are {{n.is_member|yesno:'Active,Inactive'}}
+                                                            for period <b>{{n.get_current_start}}</b> to <b>{{n.get_current_expiration}}</b></p>
+                                                        
+                                                        {% elif n.is_member == False and n.get_status %} 
+                                                            <p class="text-center">Your Membership is <b style="color:#FFCA33">pendig</b> for period <b>{{n.get_current_start}}</b> to <b>{{n.get_current_expiration}}</b></p>
+
+                                                        {% elif n.is_member and n.get_status == False %}
+                                                            <p class="text-center">Your Membership <b style="color:#FFCA33">needs to be</b> renewed by <b>{{f.person|title}}</b> for
+                                                                period  <b>{{n.get_current_start}}</b> to <b>{{n.get_current_expiration}}</b>
+                                                        {% elif n.is_member == False and n.get_status == False %}
+                                                            <p class="text-center">Your Membership <b style="color:#FFCA33">needs to be</b> renewed by <b>{{f.person|title}}</b> for
+                                                                period  <b>{{n.get_current_start}}</b> to <b>{{n.get_current_expiration}}</b>
+                                                        {% endif %}
+                                                    {% endif %}
+                                                {% endfor %}        
+                                            {% else  %} <!-- si no pertenece a un grupor familiar -->
+                                                {% if n.is_member and n.get_status %}
+                                                    <p class="text-center">You are {{n.is_member|yesno:'Active,Inactive'}}
+                                                    for period <b>{{n.get_current_start}}</b> to <b>{{n.get_current_expiration}}</b></p>
+                                                
+                                                {% elif n.is_member == False and n.get_status %} 
+                                                    <p class="text-center">Your Membership is <b style="color:#FFCA33">pendig</b> by period <b>{{n.get_current_start}}</b> to <b>{{n.get_current_expiration}}</b></p>
+
+                                                {% elif n.is_member and n.get_status == False %}
+                                                    <p class="text-center">You <b style="color:#FFCA33">need to</b> Renew your Membership for 
+                                                        current period  <b>{{n.get_current_start}}</b> to <b>{{n.get_current_expiration}}</b>
+                                                {% elif n.is_member == False and n.get_status == False %}
+                                                    <p class="text-center">You <b style="color:#FFCA33">need to</b> Renew your Membership for 
+                                                        current period  <b>{{n.get_current_start}}</b> to <b>{{n.get_current_expiration}}</b>
+                                                {% endif %}
+                                            {% endif %}
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% elif status|length == 0 %}
+                                        {% if family_groups %}
+                                            {% for parent in family_groups %}
+                                                {% if parent.person %}
+                                                    <p class=" text-center">You <b style="color:#FFCA33">need to</b> be activate by <b>{{parent.person|title}}</b> </b></p>
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% else %}
+                                            <p class=" text-center">You <b style="color:#FFCA33">need to</b> Activate your Membership </b></p>
+                                        {% endif %}
+                                    {% endif %}
+
+                                </div>    
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+            
+        <div class="row justify-content-center" style="margin-left: 1rem; margin-right: 0.3rem"> <!-- About Me -->
+            <div class="col-xl-5">
+                <div class="card shadow-lg">
+                    <div class="card-body pt-2">
+                        <!-- Bordered Tabs -->
+                        <div class="tab-content pt-2">
+                            <!-- ABOUT ME -->
+                            <div class="tab-pane fade show active profile-overview" id="profile-overview">
+                                <h5 class="card-title text-center pt-1">About Me</h5>
+                                <p class="small fst-italic"></p>
+                                <div class="d-flex justify-content-end "style="padding-right:3rem"> <!-- LOGO OR BOTTON -->
+                                   
+                                    {% if status.count > 0 %}
+                                        {% for n in status %}
+                                            {% if n %}
+                                            
+                                                {% if forloop.last %}
+                                                    {% if n.is_member and n.get_status %}
+                                                        <img  src="{% static 'general/assets/img/logo_member-removebg.png' %}" alt="imgen" width="70" height="80">
+                                                    {% elif n.is_member == False and n.get_status %}
+                                                    <p><b style="color:#FFCA33">Pending</b></b></p>
+                                                    {% else %}
+                                                        {% if family_groups %}
+                                                            <div class="d-flex justify-content-end">           
+                                                            <p>Family <br>Member</p>
+                                                            </div>
+                                                        {% else %}
+                                                            <div class="d-flex justify-content-end">           
+                                                                <a class='btn btn-warning btn-sm'  href={% url 'active_member' request.user.id %}><b>Renew</b></a>
+                                                            </div>
+                                                        {% endif %}
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% elif status|length == 0 %}
+                                        {% if family_groups %}                    
+                                            {% for parent in family_groups %}
+                                                {% if parent.person == False %}
+                                                <div class="d-flex justify-content-end">           
+                                                    <a class='btn btn-warning '  href={% url 'active_member' request.user.id %}>Activate</a>
+                                                </div>
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% else %}               
+                                            <div class="d-flex justify-content-end">           
+                                                <a class='btn btn-warning '  href={% url 'active_member' request.user.id %}>Activate</a>
+                                            </div>
+                                              
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
+
+                            <div class="container justify-content-center" style="width:75%">    
+                                <div class="row border-bottom" >
+                                    <div class="col-lg-4 col-md-4 label ">First Name:</div>
+                                    <div class="col-lg-8 col-md-6" style="font-weight:bold; color: green">{{ c.first_name|title }}</div>
+                                </div>
+
+                                <div class="row border-bottom">
+                                    <div class="col-lg- col-md-4 label">Last Name:</div>
+                                    <div class="col-lg-8 col-md-8" style="font-weight:bold; color: green">{{ c.last_name|title }}</div>
+                                </div>
+
+                                <div class="row border-bottom">
+                                    <div class="col-lg-4 col-md-4 label">Username:</div>
+                                    <div class="col-lg-8 col-md-6" style="font-weight:bold; color: green">{{ c.username }}</div>
+                                </div>
+
+                                <div class="row border-bottom">
+                                    <div class="col-lg-4 col-md-4 label">Email:</div>
+                                    <div class="col-lg-8 col-md-6" style="font-weight:bold; color: green">{{ c.email|lower }}</div>
+                                </div>
+
+                                <div class="row border-bottom">
+                                    <div class="col-lg-4 col-md-4 label">Phone:</div>
+                                    <div class="col-lg-8 col-md-6" style="font-weight:bold; color: green">{{ c.phone }}</div>
+                                </div>
+
+                                <div class="row border-bottom">
+                                    <div class="col-lg-4 col-md-4 label">Date of Birthday:</div>
+                                    <div class="col-lg-8 col-md-6" style="font-weight:bold; color: green">{{ c.birthdate }}</div>
+                                </div>
+
+                                <div class="row border-bottom">
+                                    <div class="col-lg-4 col-md-4 label">Gender:</div>
+                                    <div class="col-lg-8 col-md-6" style="font-weight:bold; color: green">{{ c.gender }}</div>
+                                </div>
+
+                                <div class="row border-bottom">
+                                    <div class="col-lg-4 col-md-4 label">NTRP Rating:</div>
+                                    <div class="col-lg-8 col-md-6" style="font-weight:bold; color: green">{{ c.ntrp_rating }}</div>
+                                </div>
+                                
+                                <div class="row border-bottom">
+                                    <div class="col-lg-4 col-md-4 label">Adress:</div>
+                                    <div class="col-lg-8 col-md-6" style="font-weight:bold; color: green">{{ c.adress|title }}</div>
+                                </div>
+
+                                <div class="row border-bottom">
+                                    <div class="col-lg-4 col-md-4 label">City:</div>
+                                    <div class="col-lg-8 col-md-6" style="font-weight:bold; color: green">{{ c.city|title }}</div>
+                                </div>
+
+                                <div class="row border-bottom">
+                                    <div class="col-lg-4 col-md-4 label">State:</div>
+                                    <div class="col-lg-8 col-md-6" style="font-weight:bold; color: green">{{ c.state }}</div>
+                                </div>
+
+                                <div class="row border-bottom">
+                                    <div class="col-lg-4 col-md-4 label">Zip:</div>
+                                    <div class="col-lg-8 col-md-6" style="font-weight:bold; color: green">{{ c.zip }}</div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="d-flex justify-content-end" style="padding-right:3rem">
+                                {% if family_groups %}
+                                    <p></p>
+                                {% else %}
+                                    <a class='btn btn-primary'  href={% url 'edit_person' request.user.id %}>Update</a>
+                                {% endif %}
+                                
+                            </div>
+
+                            </div>
+                        </div>
+                        <!-- End Bordered Tabs -->
+                    </div>
+                </div>
+            </div>
+       
+        <br>
+        
+            {% if family_groups  %}
+                <div class="col-xl-5 justify-content-center"> <!-- FAMILY_GROUPS -->
+                        <div class="card shadow-lg">
+                            <div class="card-body pt-2">
+                                <div class="tab-content pt-2 ">    
+                            <h5 class="card-title text-center pt-1">Family Group <i><sub>(Living in the same house)</sub></i></h5>
+                            <div class="d-flex justify-content-center">
+                                <div style="overflow-x:auto;">
+                                    <br>
+                                {% for family in family_groups %}    
+                                <p> you belong to the group of <strong>{{family.person|title}}</strong></p>
+                                {% endfor %}
+                                </div>    
+                            </div>
+                            </div>
+                            </div>
+                        </div>
+                </div>
+            {% else %}
+                {% for i in persons %}
+                <div class="col-xl-5">
+                    
+                    {% if i.id != request.user %}
+                        <div class="card shadow-lg">
+                            <div class="card-body pt-2">
+                                <div class="tab-content pt-2">    
+                            <h5 class="card-title text-center pt-1">Family Group <i><sub>(Living in the same house)</sub></i></h5>
+                                    
+                            <div class="d-flex justify-content-center">
+                                <div style="overflow-x:auto;">
+                                    <br>
+                                    <table class = 'table'>
+                                        <thead class="text-center">
+                                            <tr>
+                                                {% comment %} <td>Relation</td> {% endcomment %}
+                                                <td>Name</td>
+                                                <td>Membership</td>
+                                                <td>Actions</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                           
+                                            {% comment %} {{members_list}}<br>
+                                            {{member_person}}<br>
+                                            {{members_family}}<br>
+                                            {% endcomment %}
+                                            
+                                            {% for f in members_family %}
+                                            <tr>
+                                                <td>{{f|title}} </td>
+
+                                                <td>
+                                                    <div class="d-flex justify-content-center">
+                                                        
+                                                        {% if f in member_person %}
+                                                        {% for member in members_list %}
+                                                            {% if f == member.person and member.get_status %}
+                                                                    {% if  member.is_member %}
+                                                                        <img  src="{% static 'general/assets/img/logo_member-removebg.png' %}" alt="imgen" width="30" height="30">
+                                                                    {% elif  member.is_member == False %}
+                                                                        <div class="d-flex justify-content-end">           
+                                                                            <p> Pending</p>
+                                                                        </div>
+                                                                    {% endif %}
+                                                            {% elif f == member.person and member.get_status == False %}
+                                                                <div class="d-flex justify-content-end">           
+                                                                    <a class="badge bg-info"  href={% url 'active_member' f.id %}>Renew</a>
+                                                                </div>
+                                                            {% endif %}
+                                                        {% endfor %}
+
+                                                        {% else %}
+                                                            <div class="d-flex justify-content-end">           
+                                                                    <a class="badge bg-warning"  href={% url 'active_member' f.id %}>Active</a>
+                                                            </div>
+                                                        {% endif %}
+                                                           
+                                                        
+                                                       
+                                                    </div>
+                                                </td>
+
+                                                <td>
+                                                    <a class="badge bg-primary"  href={% url 'edit_family_member' f.id %}><b>Update</b></a>
+                                                    &nbsp;   
+                                                    <a class="badge bg-danger"  href={% url 'delete_family_member' f.id %}><b>Delete</b></a>
+                                                </td>
+                                            </tr>
+                                            
+                                           
+                                            {% endfor %}
+                                            
+                                        </tbody>
+                                    </table>
+
+
+                                </div>    
+                            </div>
+                            </div>
+                            </div>
+                            <br>
+                            <div class="d-flex justify-content-center pb-2">  
+                            <a class='btn btn-success' href={% url 'register_group'%}>Add a family member</a>
+                            <br>
+                            </div>
+
+                        </div>
+                    {% endif %}
+                    
+                </div>
+                {% endfor %}
+            {% endif %}
+        
+        </div>
+        <br><br>
+    
+           
+      
+    </form>
+    
+</div>
+</div>
+
+{% endif %}
+{% comment %} {% endif %} {% endcomment %}
+{% endfor %}
+{% endif %}
+
+{% endblock  %}
+ 
+
+
+
+
+            
+{% endif %}               

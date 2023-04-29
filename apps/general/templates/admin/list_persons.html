@@ -1,0 +1,93 @@
+{% extends 'base/index_forms.html' %}
+{% load static %}
+
+{% if user.is_authenticated %} 
+{% if request.user.is_staff %}
+
+
+
+{% block content %}
+ 
+{% if  object_list|length == 0 %}
+    <td><h2>No hay personas registradas</h2></td>
+{% endif %}
+
+
+<div class="justify-content-center pt-5   bg-white small bg-opacity-50 text-black">
+    <br><br>
+
+<div class=" container ">
+    <form method="GET">
+        <br>
+        <h4 class="text-center" style="color: #961309">Total: {{object_list|length}} people </h4>
+        <br>
+        <div  style="overflow-x:auto; ">
+            <table id="" class=" display table-light"  >
+                <thead>
+                    <tr class="" style="color: #961309">
+                        <th scope="col">Name</th>
+                        <th scope="col">Age</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">Adress</th>
+                        <th scope="col">City</th>
+                        <th scope="col">State</th>
+                        <th scope="col">Zip</th>
+                        
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% if person_list %}
+                        {% for n in person_list %}
+                            {% if n.username != "Admin"  %}
+                                <tr>
+                                    <td scope="row">{{n.last_name|title}} {{n.first_name|title}}</td>
+                                    <td>{{n.get_age}}</td>
+                                    <td>{{n.email|lower}}</td>
+                                    <td>{{n.phone}}</td>
+                                    <td scope="row">{{n.adress}}</td>
+                                    <td scope="row">{{n.city}}</td>
+                                    <td scope="row">{{n.state}}</td>
+                                    <td scope="row">{{n.zip}}</td>
+                                    
+                                
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                    {% else%}
+                        <tr>
+                            <td><h2>No registered persons</h2></td>
+                        </tr>
+                        
+                    {% endif %}
+                
+                </tbody>
+                <tfoot>
+                    <tr class="table-info">
+                        <th scope="col">Name</th>
+                        <th scope="col">Age</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">Adress</th>
+                        <th scope="col">City</th>
+                        <th scope="col">State</th>
+                        <th scope="col">Zip</th>
+                        
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </form>  
+</div> 
+</div> 
+
+   
+
+
+   
+{% endblock  %}          
+{% endif %}       
+{% endif %}
+
+      
